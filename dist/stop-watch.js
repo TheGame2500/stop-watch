@@ -1,8 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var StopWatch = /** @class */ (function () {
-    function StopWatch() {
+    function StopWatch(_a) {
+        var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.logger, logger = _c === void 0 ? console : _c, _d = _a.loggingPrefix, loggingPrefix = _d === void 0 ? '' : _d, _e = _a.debug, debug = _e === void 0 ? false : _e;
+        this.start = new Date();
+        this.lastLap = this.start;
+        this.id = id;
+        this.logger = logger;
+        this.loggingPrefix = loggingPrefix;
+        this.debug = debug;
+        if (!logger || !logger.log) {
+            throw new TypeError("stop-watch with id " + (id || null) + " was passed a logger with no log method");
+        }
     }
+    /**
+     * Logs a lap
+     * @param loggingSuffix - what to add as logging suffix
+     * @param sinceStart - whether logged time should be since start or since last lap
+     * @returns {Date} - returns current date for convenience
+     */
+    StopWatch.prototype.lap = function (loggingSuffix, sinceStart) {
+        if (loggingSuffix === void 0) { loggingSuffix = ''; }
+        if (sinceStart === void 0) { sinceStart = false; }
+        var now = new Date();
+        var lastDate = sinceStart ? this.start : this.lastLap;
+        var timePassedMS = now.valueOf() - lastDate.valueOf();
+        var logText = "stop-watch " + (this.id ? " id " + this.id + " " : '') + this.loggingPrefix + " " + timePassedMS + " ms since " + (sinceStart ? 'start' : 'last lap') + " " + loggingSuffix;
+        this.logger[this.debug ? 'debug' : 'log'](logText);
+        return now;
+    };
     return StopWatch;
 }());
 exports.StopWatch = StopWatch;
