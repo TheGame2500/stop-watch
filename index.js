@@ -1,0 +1,1 @@
+exports.StopWatch = require('./dist/stop-watch').StopWatch;

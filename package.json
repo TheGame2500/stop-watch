@@ -1,0 +1,38 @@
+{
+  "name": "stop-watch",
+  "version": "1.0.0",
+  "description": "Utility package to help debug time bottlenecks",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheGame2500/stop-watch.git"
+  },
+  "keywords": [
+    "stop-watch",
+    "stop",
+    "watch",
+    "stopwatch",
+    "debug",
+    "time",
+    "debugging",
+    "utility"
+  ],
+  "scripts": {
+    "test": "jasmine spec/core.js",
+    "prepublish": "npm run build",
+    "clean": "rm -rf dist && rm -rf bundle",
+    "copyCss": "cp -f src/*.css ./bundle && cp -f src/*.css ./dist",
+    "docs": "typedoc --out ./docs ./src",
+    "build": "npm run clean && tsc && webpack bundleHelper.js ./bundle/stop-watch.js && npm run copyCss && npm run docs"
+  },
+  "author": "Gabriel Bira",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^7.0.12",
+    "jasmine-node": "^1.14.5",
+    "typedoc": "^0.17.3",
+    "typescript": "^3.8.3",
+    "uglify-js": "^3.0.28",
+    "webpack": "^3.5.3"
+  }
+}

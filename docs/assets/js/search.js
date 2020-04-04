@@ -1,0 +1,3 @@
+var typedoc = typedoc || {};
+            typedoc.search = typedoc.search || {};
+            typedoc.search.data = {"kinds":{"1":"Module","128":"Class","512":"Constructor"},"rows":[{"id":0,"kind":1,"name":"\"stop-watch\"","url":"modules/_stop_watch_.html","classes":"tsd-kind-module"},{"id":1,"kind":128,"name":"StopWatch","url":"classes/_stop_watch_.stopwatch.html","classes":"tsd-kind-class tsd-parent-kind-module","parent":"\"stop-watch\""},{"id":2,"kind":512,"name":"constructor","url":"classes/_stop_watch_.stopwatch.html#constructor","classes":"tsd-kind-constructor tsd-parent-kind-class","parent":"\"stop-watch\".StopWatch"}]};
