@@ -1,26 +1,34 @@
-
 export class StopWatch {
     readonly id: string
     readonly logger: Console
     readonly loggingPrefix: string
     readonly debug: boolean
     readonly start = new Date()
-    private lastLap = this.start;
+    readonly watchMode: boolean
+    private lastLap = this.start
 
     constructor({
         id= '',
         logger=console,
         loggingPrefix='',
-        debug=false
+        debug=false,
+        watchMode=false,
+        threshold=0
     }) {
         this.id = id
         this.logger = logger
         this.loggingPrefix = loggingPrefix
         this.debug = debug
+        this.watchMode = watchMode
 
-        if (!logger || !logger.log) {
-            throw new TypeError(`stop-watch with id ${id || null} was passed a logger with no log method`)
+        if (!logger || !logger.log || (debug && !logger.debug)) {
+            throw new TypeError(`stop-watch with id ${
+                id || null
+            } was passed a logger with no ${
+                debug ? 'debug' : 'log'
+            } method`)
         }
+
     }
 
     /**
@@ -34,8 +42,8 @@ export class StopWatch {
         let lastDate = sinceStart ? this.start : this.lastLap
         const timePassedMS = now.valueOf() - lastDate.valueOf()
 
-        const logText = `stop-watch ${
-            this.id ? ` id ${this.id} `: ''
+        const logText = `stop-watch${
+            this.id ? ` ${this.id} `: ''
         }${
             this.loggingPrefix
         } ${

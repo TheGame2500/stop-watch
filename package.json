@@ -18,7 +18,7 @@
     "utility"
   ],
   "scripts": {
-    "test": "jasmine spec/core.js",
+    "test": "npm run build && ./node_modules/.bin/mocha spec/",
     "prepublish": "npm run build",
     "clean": "rm -rf dist && rm -rf bundle",
     "copyCss": "cp -f src/*.css ./bundle && cp -f src/*.css ./dist",
@@ -29,10 +29,15 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^7.0.12",
-    "jasmine-node": "^1.14.5",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^7.1.1",
+    "sinon": "^9.0.1",
+    "sinon-chai": "^3.5.0",
     "typedoc": "^0.17.3",
     "typescript": "^3.8.3",
     "uglify-js": "^3.0.28",
     "webpack": "^3.5.3"
-  }
+  },
+  "dependencies": {}
 }
