@@ -30,11 +30,15 @@ export class StopWatch {
 
     /**
      * Logs a lap
+     * @param id - lap ID. required if watchMode is true
      * @param loggingSuffix - what to add as logging suffix
      * @param sinceStart - whether logged time should be since start or since last lap
      * @returns {Date} - returns current date for convenience
      */
-    lap(loggingSuffix='', sinceStart=false):Date {
+    lap({ id = '', loggingSuffix = '', sinceStart=false }):Date {
+        if (!id && this.watchMode) {
+            throw new TypeError(`stop-watch ${this.id} watch mode laps need lap id`)
+        }
         const now: Date = new Date()
         let lastDate = sinceStart ? this.start : this.lastLap
         const timePassedMS = now.valueOf() - lastDate.valueOf()

@@ -15,13 +15,16 @@ var StopWatch = /** @class */ (function () {
     }
     /**
      * Logs a lap
+     * @param id - lap ID
      * @param loggingSuffix - what to add as logging suffix
      * @param sinceStart - whether logged time should be since start or since last lap
      * @returns {Date} - returns current date for convenience
      */
-    StopWatch.prototype.lap = function (loggingSuffix, sinceStart) {
-        if (loggingSuffix === void 0) { loggingSuffix = ''; }
-        if (sinceStart === void 0) { sinceStart = false; }
+    StopWatch.prototype.lap = function (_a) {
+        var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.loggingSuffix, loggingSuffix = _c === void 0 ? '' : _c, _d = _a.sinceStart, sinceStart = _d === void 0 ? false : _d;
+        if (!id && this.watchMode) {
+            throw new TypeError("stop-watch " + this.id + " watch mode laps need lap id");
+        }
         var now = new Date();
         var lastDate = sinceStart ? this.start : this.lastLap;
         var timePassedMS = now.valueOf() - lastDate.valueOf();

@@ -36,14 +36,17 @@ function basicFunctionalityTests() {
 	})
 
 	it('logs properly since start', () => {
-		const now = stopWatch.lap('suf', true)
+		const now = stopWatch.lap({
+			loggingSuffix:'suf',
+			sinceStart: true
+		})
 		const ms = now - stopWatch.start
 		const expectedLog = 'stop-watch testId pref ' + ms + ' ms since start suf'
 		consoleStub.log.should.have.been.calledWith(expectedLog)
 	})
 	it('logs properly since lastLap', () => {
-		const firstNow = stopWatch.lap('suf')
-		const secondNow = stopWatch.lap('suf')
+		const firstNow = stopWatch.lap({ loggingSuffix:'suf'})
+		const secondNow = stopWatch.lap({ loggingSuffix:'suf'})
 		const ms = secondNow - firstNow
 		const expectedLog = 'stop-watch testId pref ' + ms + ' ms since last lap suf'
 		consoleStub.log.should.have.been.calledWith(expectedLog)
@@ -73,6 +76,21 @@ function watcherFunctionalityTests() {
 		}
 	})
 
+	it('throws error if watch-mode and no id passed to lap', () => {
+		let ex = { message: '' };
+		try {
+			const stopWatch = new StopWatch({
+				watchMode: true,
+				logger: consoleStub,
+			})
+
+			stopWatch.lap({})
+		} catch (exception) {
+			ex = exception
+		}
+		ex.message.should.include('watch mode laps need lap id')
+	})
+
 	it('does not log anything before minThreshold laps', () => {
 		const stopWatch = new StopWatch({
 			logger: consoleStub,
@@ -81,7 +99,7 @@ function watcherFunctionalityTests() {
 		})
 
 		for (let i = 1; i <= 10; i++) {
-			stopWatch.lap()
+			stopWatch.lap({ id: 'lapID'})
 		}
 
 		consoleStub.log.should.not.have.been.called
@@ -110,7 +128,7 @@ function watcherFunctionalityTests() {
 
 			for (const ms of msArray) {
 				await waitMs(ms)
-				stopWatch.lap('suf')
+				stopWatch.lap({ id: 'suf'})
 			}
 		}
 

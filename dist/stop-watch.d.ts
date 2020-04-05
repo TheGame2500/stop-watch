@@ -18,9 +18,14 @@ export declare class StopWatch {
     });
     /**
      * Logs a lap
+     * @param id - lap ID
      * @param loggingSuffix - what to add as logging suffix
      * @param sinceStart - whether logged time should be since start or since last lap
      * @returns {Date} - returns current date for convenience
      */
-    lap(loggingSuffix?: string, sinceStart?: boolean): Date;
+    lap({ id, loggingSuffix, sinceStart }: {
+        id?: string;
+        loggingSuffix?: string;
+        sinceStart?: boolean;
+    }): Date;
 }
