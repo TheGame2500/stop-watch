@@ -7,15 +7,17 @@ export class StopWatch {
     readonly debug: boolean
     readonly start = new Date()
     readonly watchMode: boolean
+    readonly minLaps: number
     private lastLap = this.start
 
     constructor({
-        id= '',
-        logger=console,
-        loggingPrefix='',
-        debug=false,
-        watchMode=false,
-        threshold=0
+        id = '',
+        logger = console,
+        loggingPrefix = '',
+        debug = false,
+        watchMode = false,
+        threshold = 0,
+        minLaps = 10
     }) {
         this.id = id
         this.logger = logger
@@ -50,6 +52,7 @@ export class StopWatch {
         }`
 
         this.logger[this.debug ? 'debug' : 'log'](logText)
+        this.lastLap = now
         return now
     }
 }

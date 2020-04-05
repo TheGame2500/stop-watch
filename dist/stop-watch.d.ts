@@ -5,14 +5,16 @@ export declare class StopWatch {
     readonly debug: boolean;
     readonly start: Date;
     readonly watchMode: boolean;
+    readonly minLaps: number;
     private lastLap;
-    constructor({ id, logger, loggingPrefix, debug, watchMode, threshold }: {
+    constructor({ id, logger, loggingPrefix, debug, watchMode, threshold, minLaps }: {
         id?: string;
         logger?: Console;
         loggingPrefix?: string;
         debug?: boolean;
         watchMode?: boolean;
         threshold?: number;
+        minLaps?: number;
     });
     /**
      * Logs a lap
