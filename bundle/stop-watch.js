@@ -86,6 +86,7 @@ else {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var helpers_1 = __webpack_require__(2);
 var StopWatch = /** @class */ (function () {
     function StopWatch(_a) {
         var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.logger, logger = _c === void 0 ? console : _c, _d = _a.loggingPrefix, loggingPrefix = _d === void 0 ? '' : _d, _e = _a.debug, debug = _e === void 0 ? false : _e, _f = _a.watchMode, watchMode = _f === void 0 ? false : _f, _g = _a.threshold, threshold = _g === void 0 ? 0 : _g;
@@ -96,9 +97,7 @@ var StopWatch = /** @class */ (function () {
         this.loggingPrefix = loggingPrefix;
         this.debug = debug;
         this.watchMode = watchMode;
-        if (!logger || !logger.log || (debug && !logger.debug)) {
-            throw new TypeError("stop-watch with id " + (id || null) + " was passed a logger with no " + (debug ? 'debug' : 'log') + " method");
-        }
+        helpers_1.validateLogger(id, debug, logger, watchMode);
     }
     /**
      * Logs a lap
@@ -120,6 +119,30 @@ var StopWatch = /** @class */ (function () {
 }());
 exports.StopWatch = StopWatch;
 //# sourceMappingURL=stop-watch.js.map
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateLogger = function (id, debug, logger, watchMode) {
+    var prefix = "stop-watch with id " + id;
+    if (!logger)
+        throw new TypeError(prefix + " was passed no logger");
+    var noWarnOrErr = !logger.warn || !logger.error;
+    if (watchMode && noWarnOrErr) {
+        throw new TypeError(prefix + " was passed a logger with no '" + (!logger.warn ? 'warn' : 'error') + "' method");
+    }
+    if (debug && !logger.debug) {
+        throw new TypeError(prefix + " was passed a logger with no 'debug' method");
+    }
+    if (!logger.log) {
+        throw new TypeError(prefix + " was passed a logger with no 'log' method");
+    }
+};
+//# sourceMappingURL=helpers.js.map
 
 /***/ })
 /******/ ]);

@@ -50,5 +50,14 @@ function basicFunctionalityTests() {
 }
 
 function watcherFunctionalityTests() {
-
+	it('throws error if watch-mode and warn or error not present on logger', () => {
+		try {
+			new StopWatch({
+				watchMode: true,
+				logger: {}
+			})
+		} catch (ex) {
+			ex.message.should.include('warn')
+		}
+	})
 }

@@ -1,3 +1,5 @@
+import { validateLogger } from './helpers'
+
 export class StopWatch {
     readonly id: string
     readonly logger: Console
@@ -21,14 +23,7 @@ export class StopWatch {
         this.debug = debug
         this.watchMode = watchMode
 
-        if (!logger || !logger.log || (debug && !logger.debug)) {
-            throw new TypeError(`stop-watch with id ${
-                id || null
-            } was passed a logger with no ${
-                debug ? 'debug' : 'log'
-            } method`)
-        }
-
+        validateLogger(id, debug, logger, watchMode)
     }
 
     /**
@@ -57,4 +52,4 @@ export class StopWatch {
         this.logger[this.debug ? 'debug' : 'log'](logText)
         return now
     }
-    }
+}
