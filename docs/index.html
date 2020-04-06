@@ -64,38 +64,51 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#node-module-template" id="node-module-template" style="color: inherit; text-decoration: none;">
-					<h1>Node Module Template</h1>
+				<a href="#stop-watch" id="stop-watch" style="color: inherit; text-decoration: none;">
+					<h1>stop-watch</h1>
 				</a>
-				<ol>
-					<li>Clone this repository.</li>
-					<li>Run <code>node setup.js</code> and follow the on screen instructions.</li>
-					<li>Run <code>npm install</code> </li>
-					<li>Add source code in <strong>src/</strong></li>
-					<li>Run <code>node run build</code> to build the module.</li>
-					<li>The browser module is built in <strong>/bundle</strong> and nodeJS module in <strong>/dist</strong></li>
-				</ol>
-				<a href="#subdirectories" id="subdirectories" style="color: inherit; text-decoration: none;">
-					<h2>Subdirectories</h2>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { StopWatch } <span class="hljs-keyword">from</span> <span class="hljs-string">'stop-watch'</span></code></pre>
+				<a href="#basic-mode-watchmode--false" id="basic-mode-watchmode--false" style="color: inherit; text-decoration: none;">
+					<h2>Basic mode (watchMode == false)</h2>
 				</a>
-				<ul>
-					<li><strong>bundle</strong><ul>
-							<li>Contains the bundled module and any supporting files for use in the browser.</li>
-						</ul>
-					</li>
-					<li><strong>dist</strong><ul>
-							<li>Contains the build module, the TS declaration file and any other support files.</li>
-						</ul>
-					</li>
-					<li><strong>examples</strong><ul>
-							<li>Contains examples that demonstrate how to use the module.  The examples directory should be subdivided into browser and nodeJS.</li>
-						</ul>
-					</li>
-					<li><strong>src</strong><ul>
-							<li>Contains the module source code includes TS, CSS, etc.</li>
-						</ul>
-					</li>
-				</ul>
+				<p>Just your basic stop-watch. Usage:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> stopWatch = <span class="hljs-keyword">new</span> StopWatch({
+    <span class="hljs-attr">id</span>: <span class="hljs-string">'optionalID'</span>,
+    <span class="hljs-attr">logger</span>: <span class="hljs-built_in">console</span>,
+    <span class="hljs-attr">loggingPrefix</span>: <span class="hljs-string">'log prefix'</span>
+    <span class="hljs-attr">debug</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// will use console.debug if true</span>
+})
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jobWhichTakesAWhileAndRepeatsALot</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">await</span> subTask1() <span class="hljs-comment">// which takes ~100ms</span>
+    stopWatch.lap({ <span class="hljs-attr">loggingSufix</span>: <span class="hljs-string">'subTask1'</span>, <span class="hljs-attr">sinceStart</span>: <span class="hljs-literal">false</span> })
+    <span class="hljs-comment">// logs "stop-watch optionalID logPrefix 100 ms since last lap subTask1"</span>
+
+    <span class="hljs-keyword">await</span> subTask2() <span class="hljs-comment">// which takes ~200ms</span>
+    stopWatch.lap({ <span class="hljs-attr">loggingSufix</span>: <span class="hljs-string">'subTask2'</span>, <span class="hljs-attr">sinceStart</span>: <span class="hljs-literal">true</span> })
+    <span class="hljs-comment">// logs "stop-watch optionalID logPrefix 300 ms since start subTask1"</span>
+}</code></pre>
+				<a href="#watcher-mode-watchmode--true" id="watcher-mode-watchmode--true" style="color: inherit; text-decoration: none;">
+					<h2>Watcher mode (watchMode == true)</h2>
+				</a>
+				<p>If you don&#39;t want to spam your logs with the basic usage,
+				watcherMode will only log what seems out of place.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> stopWatch = <span class="hljs-keyword">new</span> StopWatch({
+    <span class="hljs-attr">id</span>: <span class="hljs-string">'optionalID'</span>,
+    <span class="hljs-attr">logger</span>: <span class="hljs-built_in">console</span>,
+    <span class="hljs-attr">loggingPrefix</span>: <span class="hljs-string">'log prefix'</span>
+    <span class="hljs-attr">debug</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// will use console.debug if true</span>
+})
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jobWhichTakesAWhileAndRepeatsALot</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">await</span> subTask1() <span class="hljs-comment">// which takes ~120ms, after previous subTask1 called took ~100ms</span>
+    stopWatch.lap({ <span class="hljs-attr">id</span>:<span class="hljs-string">'subTask1'</span>, <span class="hljs-attr">loggingSufix</span>: <span class="hljs-string">'subTask1'</span>})
+    <span class="hljs-comment">// warns "stop-watch optionalID logPrefix 100 ms since last lap subTask1"</span>
+
+    <span class="hljs-keyword">await</span> subTask2() <span class="hljs-comment">// which takes ~200ms, after previous subTask2 called took ~100ms,</span>
+    stopWatch.lap({ <span class="hljs-attr">id</span>: <span class="hljs-string">'subTask2'</span>, <span class="hljs-attr">loggingSufix</span>: <span class="hljs-string">'subTask2'</span>)
+    <span class="hljs-comment">// errors "stop-watch optionalID logPrefix 300 ms since start subTask2"</span>
+}</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
