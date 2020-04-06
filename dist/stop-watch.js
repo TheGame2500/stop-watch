@@ -8,7 +8,7 @@ var mean_1 = __importDefault(require("mean"));
 var standard_deviation_1 = __importDefault(require("standard-deviation"));
 var StopWatch = /** @class */ (function () {
     function StopWatch(_a) {
-        var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.logger, logger = _c === void 0 ? console : _c, _d = _a.loggingPrefix, loggingPrefix = _d === void 0 ? '' : _d, _e = _a.debug, debug = _e === void 0 ? false : _e, _f = _a.watchMode, watchMode = _f === void 0 ? false : _f, _g = _a.threshold, threshold = _g === void 0 ? 0 : _g, _h = _a.minLaps, minLaps = _h === void 0 ? 10 : _h;
+        var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.logger, logger = _c === void 0 ? console : _c, _d = _a.loggingPrefix, loggingPrefix = _d === void 0 ? '' : _d, _e = _a.debug, debug = _e === void 0 ? false : _e, _f = _a.watchMode, watchMode = _f === void 0 ? false : _f, _g = _a.minLaps, minLaps = _g === void 0 ? 10 : _g;
         this.start = new Date();
         this.lastLap = this.start;
         this.lapTimes = {};
@@ -58,14 +58,11 @@ var StopWatch = /** @class */ (function () {
             return now;
         }
         var stdDevsAway = this.getStdDevsAway(lapTimes, diffMS);
-        console.log('stdDevsAway', stdDevsAway);
-        this.pushLapTime(id, diffMS);
         var logMethod = this.getLogMethod(stdDevsAway);
-        console.log('log method', logMethod);
+        this.pushLapTime(id, diffMS);
         if (!logMethod)
             return now;
         var logText = this.getLogText(diffMS, false, loggingSuffix);
-        console.log('logtext', logText);
         this.logger[logMethod](logText);
         return now;
     };

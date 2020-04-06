@@ -19,7 +19,6 @@ export class StopWatch {
         loggingPrefix = '',
         debug = false,
         watchMode = false,
-        threshold = 0,
         minLaps = 10
     }) {
         this.id = id

@@ -8,13 +8,12 @@ export declare class StopWatch {
     readonly minLaps: number;
     private lastLap;
     private lapTimes;
-    constructor({ id, logger, loggingPrefix, debug, watchMode, threshold, minLaps }: {
+    constructor({ id, logger, loggingPrefix, debug, watchMode, minLaps }: {
         id?: string;
         logger?: Console;
         loggingPrefix?: string;
         debug?: boolean;
         watchMode?: boolean;
-        threshold?: number;
         minLaps?: number;
     });
     /**
