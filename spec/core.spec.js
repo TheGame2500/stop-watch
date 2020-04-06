@@ -116,12 +116,13 @@ function watcherFunctionalityTests() {
 			consoleStub.error.reset()
 		})
 
-		const MS_ARRAY = [25,25,25,50,25,50,50,50,50,50]
+		const MS_ARRAY = [25,25,25,50,25,50,50,50,50,30]
 		const MEAN = 40
 		const STD_DEV = 12.247448713916
 
 		const awaitLaps = async msArray => {
 			const stopWatch = new StopWatch({
+				logger: consoleStub,
 				watchMode: true,
 				minLaps: msArray.length - 1 // only log for last value
 			})
@@ -139,15 +140,15 @@ function watcherFunctionalityTests() {
 			consoleStub.error.should.not.have.been.called
 		})
 		it('warns if between 1 and 2 standard deviations away from mean time between laps', async () => {
-			const warnArray = [...MS_ARRAY, MEAN + 1.5 * STD_DEV]
-			await awaitLaps(MS_ARRAY)
+			const warnArray = [...MS_ARRAY, MEAN + (1.5 * STD_DEV)]
+			await awaitLaps(warnArray)
 			consoleStub.log.should.not.have.been.called
 			consoleStub.warn.should.have.been.called
 			consoleStub.error.should.not.have.been.called
 		})
 		it('errors if between >2 standard deviations away from mean time between laps', async () => {
-			const warnArray = [...MS_ARRAY, MEAN + 1.5 * STD_DEV]
-			await awaitLaps(MS_ARRAY)
+			const errArray = [...MS_ARRAY, MEAN + (2.5 * STD_DEV)]
+			await awaitLaps(errArray)
 			consoleStub.log.should.not.have.been.called
 			consoleStub.warn.should.not.have.been.called
 			consoleStub.error.should.have.been.called

@@ -7,6 +7,7 @@ export declare class StopWatch {
     readonly watchMode: boolean;
     readonly minLaps: number;
     private lastLap;
+    private lapTimes;
     constructor({ id, logger, loggingPrefix, debug, watchMode, threshold, minLaps }: {
         id?: string;
         logger?: Console;
@@ -18,7 +19,7 @@ export declare class StopWatch {
     });
     /**
      * Logs a lap
-     * @param id - lap ID
+     * @param id - lap ID. required if watchMode is true
      * @param loggingSuffix - what to add as logging suffix
      * @param sinceStart - whether logged time should be since start or since last lap
      * @returns {Date} - returns current date for convenience
@@ -28,4 +29,11 @@ export declare class StopWatch {
         loggingSuffix?: string;
         sinceStart?: boolean;
     }): Date;
+    private basicLap;
+    private watchLap;
+    private getLogMethod;
+    private getStdDevsAway;
+    private getLapTimes;
+    private pushLapTime;
+    private getLogText;
 }

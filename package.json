@@ -39,5 +39,9 @@
     "uglify-js": "^3.0.28",
     "webpack": "^3.5.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "mean": "^1.0.1",
+    "standard-deviation": "^1.0.0",
+    "variance": "0.0.1"
+  }
 }
