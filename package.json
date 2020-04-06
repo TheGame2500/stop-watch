@@ -1,5 +1,5 @@
 {
-  "name": "stop-watch",
+  "name": "clever-stop-watch",
   "version": "1.0.0",
   "description": "Utility package to help debug time bottlenecks",
   "main": "index.js",

@@ -1,6 +1,6 @@
 # stop-watch
 ```javascript
-import { StopWatch } from 'stop-watch'
+import { StopWatch } from 'clever-stop-watch'
 ```
 
 ## Basic mode (watchMode == false)
