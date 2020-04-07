@@ -10,16 +10,28 @@ export class StopWatch {
     readonly start = new Date()
     readonly watchMode: boolean
     readonly minLaps: number
+    readonly maxLaps: number;
     private lastLap = this.start
     private lapTimes = {}
 
+    /**
+     *
+     * @param param0.id - stop watch id, will preƒix all the logs
+     * @param param0.logger - logger; defaults to `console`; must have `log`/`debug` methods in basic mode and `warn` and `error` methods in watch mode
+     * @param param0.loggingPrefix - logging prefix; will be added as a prefix to all logs
+     * @param param0.debug - debug mode; will log using `debug` in basic mode
+     * @param param0.watchMode - watch mode will make the stop watch only log what is important
+     * @param param0.minLaps - minimum laps after which to start considering log importance; defaults to 10
+     * @param param0.maxLaps - max laps to store in memory; defaults to 1000; set to 0 for unlimited, but leads to memory leak;
+     */
     constructor({
         id = '',
         logger = console,
         loggingPrefix = '',
         debug = false,
         watchMode = false,
-        minLaps = 10
+        minLaps = 10,
+        maxLaps = 1000,
     }) {
         this.id = id
         this.logger = logger
@@ -27,14 +39,15 @@ export class StopWatch {
         this.debug = debug
         this.watchMode = watchMode
         this.minLaps = minLaps
+        this.maxLaps = maxLaps
         validateLogger(id, debug, logger, watchMode)
     }
 
     /**
      * Logs a lap
-     * @param id - lap ID. required if watchMode is true
-     * @param loggingSuffix - what to add as logging suffix
-     * @param sinceStart - whether logged time should be since start or since last lap
+     * @param param0.id - lap ID. required if watchMode is true
+     * @param param0.loggingSuffix - what to add as logging suffix
+     * @param param0.sinceStart - whether logged time should be since start or since last lap
      * @returns {Date} - returns current date for convenience
      */
     lap({ id = '', loggingSuffix = '', sinceStart=false }):Date {
@@ -96,7 +109,16 @@ export class StopWatch {
         return currentWithoutMean / stdDev
     }
     private getLapTimes(id: string): [number] {
-        return this.lapTimes[id]
+        const lapTimes: [number] = this.lapTimes[id]
+        if (!lapTimes) return
+
+        if (
+            this.maxLaps > 0 &&
+            lapTimes.length >= this.maxLaps
+        ) {
+            this.lapTimes[id] = lapTimes.slice(1)
+        }
+        return lapTimes
     }
 
     private pushLapTime(id: string, lapTime: number): void {

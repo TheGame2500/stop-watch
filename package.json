@@ -1,6 +1,6 @@
 {
   "name": "clever-stop-watch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility package to help debug time bottlenecks",
   "main": "index.js",
   "repository": {

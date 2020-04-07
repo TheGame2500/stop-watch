@@ -93,8 +93,18 @@ var helpers_1 = __webpack_require__(2);
 var mean_1 = __importDefault(__webpack_require__(3));
 var standard_deviation_1 = __importDefault(__webpack_require__(4));
 var StopWatch = /** @class */ (function () {
+    /**
+     *
+     * @param param0.id - stop watch id, will preƒix all the logs
+     * @param param0.logger - logger; defaults to `console`; must have `log`/`debug` methods in basic mode and `warn` and `error` methods in watch mode
+     * @param param0.loggingPrefix - logging prefix; will be added as a prefix to all logs
+     * @param param0.debug - debug mode; will log using `debug` in basic mode
+     * @param param0.watchMode - watch mode will make the stop watch only log what is important
+     * @param param0.minLaps - minimum laps after which to start considering log importance; defaults to 10
+     * @param param0.maxLaps - max laps to store in memory; defaults to 1000; set to 0 for unlimited, but leads to memory leak;
+     */
     function StopWatch(_a) {
-        var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.logger, logger = _c === void 0 ? console : _c, _d = _a.loggingPrefix, loggingPrefix = _d === void 0 ? '' : _d, _e = _a.debug, debug = _e === void 0 ? false : _e, _f = _a.watchMode, watchMode = _f === void 0 ? false : _f, _g = _a.minLaps, minLaps = _g === void 0 ? 10 : _g;
+        var _b = _a.id, id = _b === void 0 ? '' : _b, _c = _a.logger, logger = _c === void 0 ? console : _c, _d = _a.loggingPrefix, loggingPrefix = _d === void 0 ? '' : _d, _e = _a.debug, debug = _e === void 0 ? false : _e, _f = _a.watchMode, watchMode = _f === void 0 ? false : _f, _g = _a.minLaps, minLaps = _g === void 0 ? 10 : _g, _h = _a.maxLaps, maxLaps = _h === void 0 ? 1000 : _h;
         this.start = new Date();
         this.lastLap = this.start;
         this.lapTimes = {};
@@ -104,13 +114,14 @@ var StopWatch = /** @class */ (function () {
         this.debug = debug;
         this.watchMode = watchMode;
         this.minLaps = minLaps;
+        this.maxLaps = maxLaps;
         helpers_1.validateLogger(id, debug, logger, watchMode);
     }
     /**
      * Logs a lap
-     * @param id - lap ID. required if watchMode is true
-     * @param loggingSuffix - what to add as logging suffix
-     * @param sinceStart - whether logged time should be since start or since last lap
+     * @param param0.id - lap ID. required if watchMode is true
+     * @param param0.loggingSuffix - what to add as logging suffix
+     * @param param0.sinceStart - whether logged time should be since start or since last lap
      * @returns {Date} - returns current date for convenience
      */
     StopWatch.prototype.lap = function (_a) {
@@ -166,7 +177,14 @@ var StopWatch = /** @class */ (function () {
         return currentWithoutMean / stdDev;
     };
     StopWatch.prototype.getLapTimes = function (id) {
-        return this.lapTimes[id];
+        var lapTimes = this.lapTimes[id];
+        if (!lapTimes)
+            return;
+        if (this.maxLaps > 0 &&
+            lapTimes.length >= this.maxLaps) {
+            this.lapTimes[id] = lapTimes.slice(1);
+        }
+        return lapTimes;
     };
     StopWatch.prototype.pushLapTime = function (id, lapTime) {
         this.lapTimes[id] = this.lapTimes[id] || [];

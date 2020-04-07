@@ -109,6 +109,26 @@ function watcherFunctionalityTests() {
 
 	const waitMs = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+	describe('max laps', () => {
+		it ('throws away extralaps from the beginning if more then max laps', async () => {
+			const stopWatch = new StopWatch({
+				logger: consoleStub,
+				watchMode: true,
+				minLaps: 10,
+				maxLaps: 15,
+			})
+			await waitMs(150)
+			stopWatch.lap({ id: 'maxLap'})
+			stopWatch.lapTimes.maxLap.length.should.equal(1)
+			const firstLap = stopWatch.lapTimes.maxLap[0]
+			for (let i=1; i <= 15; i++) {
+				await stopWatch.lap({id: 'maxLap'})
+			}
+
+			stopWatch.lapTimes.maxLap[0].should.not.equal(firstLap)
+			stopWatch.lapTimes.maxLap.length.should.equal(15)
+		})
+	})
 	describe('standard deviation', () => {
 		beforeEach(() => {
 			consoleStub.log.reset()

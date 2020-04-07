@@ -34,7 +34,9 @@ const stopWatch = new StopWatch({
     id: 'optionalID',
     logger: console,
     loggingPrefix: 'log prefix'
-    debug: false, // will use console.debug if true
+    watchMode: true,
+    minLaps: 5, // minimum laps after which logging is enabled
+    maxLaps: 1000 // max lap times to store in memory; 0 for unlimited; default is 1000;
 })
 
 async function jobWhichTakesAWhileAndRepeatsALot() {

@@ -67,7 +67,7 @@
 				<a href="#stop-watch" id="stop-watch" style="color: inherit; text-decoration: none;">
 					<h1>stop-watch</h1>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { StopWatch } <span class="hljs-keyword">from</span> <span class="hljs-string">'stop-watch'</span></code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { StopWatch } <span class="hljs-keyword">from</span> <span class="hljs-string">'clever-stop-watch'</span></code></pre>
 				<a href="#basic-mode-watchmode--false" id="basic-mode-watchmode--false" style="color: inherit; text-decoration: none;">
 					<h2>Basic mode (watchMode == false)</h2>
 				</a>
@@ -97,7 +97,9 @@
     <span class="hljs-attr">id</span>: <span class="hljs-string">'optionalID'</span>,
     <span class="hljs-attr">logger</span>: <span class="hljs-built_in">console</span>,
     <span class="hljs-attr">loggingPrefix</span>: <span class="hljs-string">'log prefix'</span>
-    <span class="hljs-attr">debug</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// will use console.debug if true</span>
+    <span class="hljs-attr">watchMode</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">minLaps</span>: <span class="hljs-number">5</span>, <span class="hljs-comment">// minimum laps after which logging is enabled</span>
+    <span class="hljs-attr">maxLaps</span>: <span class="hljs-number">1000</span> <span class="hljs-comment">// max lap times to store in memory; 0 for unlimited; default is 1000;</span>
 })
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jobWhichTakesAWhileAndRepeatsALot</span>(<span class="hljs-params"></span>) </span>{
