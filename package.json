@@ -37,7 +37,7 @@
     "typedoc": "^0.17.3",
     "typescript": "^3.8.3",
     "uglify-js": "^3.0.28",
-    "webpack": "^3.5.3"
+    "webpack": "^5.75.0"
   },
   "dependencies": {
     "mean": "^1.0.1",
